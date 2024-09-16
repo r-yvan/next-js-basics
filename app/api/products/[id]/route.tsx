@@ -49,4 +49,6 @@ export const DELETE = async (
   await prisma.products.delete({
     where: { id: prod.id },
   });
+
+  return NextResponse.json({ message: "Successfully deleted the object!!" });
 };
