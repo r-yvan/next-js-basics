@@ -36,3 +36,17 @@ export const PUT = async (
     message: "Successfully updated the object!!",
   });
 };
+
+export const DELETE = async (
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) => {
+  const prods = await prisma.products.findMany();
+  const prod = await prods.find((p: Product) => p.id === parseInt(params.id));
+
+  if (!prod)
+    return NextResponse.json({ error: "Product not found!!" }, { status: 404 });
+  await prisma.products.delete({
+    where: { id: prod.id },
+  });
+};
