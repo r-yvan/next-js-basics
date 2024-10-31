@@ -1,20 +1,29 @@
 import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../schema";
-import { PrismaClient } from "@prisma/client/extension";
+import prisma from "@/prisma/client";
 
-const prisma = new PrismaClient();
-export const GET = (
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+}
+
+export const GET = async (
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) => {
-  
-  return NextResponse.json({ id: params.id, name: "Avocado", price: 4.5 });
+  const prods = await prisma.products.findMany();
+  const prod = prods.find((p: Product) => p.id === parseInt(params.id));
+
+  if (!prod)
+    return NextResponse.json({ error: "Product not found!!" }, { status: 404 });
+  return NextResponse.json({ prod });
 };
 
 export const PUT = async (
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) => {
   const body = await request.json();
   const validationResult = schema.safeParse(body);
