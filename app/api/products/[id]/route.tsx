@@ -16,43 +16,6 @@ export const GET = (
   return NextResponse.json({ id: params.id, name: "Avocado", price: 4.5 });
 };
 
-export const POST = async (
-  request: NextRequest,
-  { params }: { params: { id: number } }
-) => {
-  const body = await request.json();
-  if (!body.name)
-    return NextResponse.json(
-      {
-        error: "The name of the Product is required!!",
-      },
-      { status: 400 }
-    );
-
-  if (!body.price)
-    return NextResponse.json(
-      {
-        error: "The price of the Product is required!!",
-      },
-      { status: 400 }
-    );
-  if (params.id > 10)
-    return NextResponse.json(
-      { error: "The Product cannot be created!!" },
-      { status: 404 }
-    );
-  const newProd = await prisma.products.create({
-    data: {
-      name: body.name,
-      price: body.price,
-    }
-  });
-  return NextResponse.json({
-    body,
-    message: "The Product created successfully!!",
-  });
-};
-
 export const PUT = async (
   request: NextRequest,
   { params }: { params: { id: number } }
