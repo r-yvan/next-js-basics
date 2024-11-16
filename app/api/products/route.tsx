@@ -7,20 +7,17 @@ export const GET = async (request: NextRequest) => {
   return NextResponse.json(prods);
 };
 
-export const POST = async (
-  request: NextRequest,
-  { params }: { params: { id: number } }
-) => {
+export const POST = async (request: NextRequest) => {
   const body = await request.json();
   const validationResult = schema.safeParse(body);
 
   if (!validationResult.success) {
     return NextResponse.json(validationResult.error.errors, { status: 400 });
   }
-  
+
   const newProd = await prisma.products.create({
     data: {
-      id: params.id,
+      id: body.id,
       name: body.name,
       price: body.price,
     },

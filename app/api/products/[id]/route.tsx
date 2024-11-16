@@ -8,11 +8,7 @@ export const GET = (
   request: NextRequest,
   { params }: { params: { id: number } }
 ) => {
-  if (params.id > 10)
-    return NextResponse.json(
-      { error: "The Product does not exist!!" },
-      { status: 404 }
-    );
+  
   return NextResponse.json({ id: params.id, name: "Avocado", price: 4.5 });
 };
 
