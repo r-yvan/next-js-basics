@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "daisyui": "^4.12.14",
     "next": "15.0.3",
     "next-cloudinary": "^6.16.0",
     "prisma": "^5.22.0",
